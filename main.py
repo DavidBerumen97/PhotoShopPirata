@@ -19,7 +19,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_3.clicked.connect(self.negativo)
         self.pushButton_4.clicked.connect(self.rotar_izquierda)
         self.pushButton_5.clicked.connect(self.rotar_derecha)
-        self.pushButton_6.clicked.connect(self.espejo_vertical)
+        self.pushButton_6.clicked.connect(self.espejo_horizontal)
+        self.pushButton_7.clicked.connect(self.espejo_vertical)
+        self.pushButton_8.clicked.connect(self.desenfoque)
     
     def original(self):
         if self.img_original is not None:
@@ -59,14 +61,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.etiqueta.setPixmap(self.convert_cv_qt(img_tmp))
         self.img = img_tmp 
     
+    def espejo_horizontal(self):
+        """Realiza un espejo horitzontal a la imagen"""
+        img_tmp = self.img[::-1,:]
+        self.etiqueta.setPixmap(self.convert_cv_qt(img_tmp))
+        self.img = img_tmp
+    
     def espejo_vertical(self):
         """Realiza un espejo vertical a la imagen"""
-        #img_tmp = self.img[-1::]
-        img_tmp = np.flipud(self.img)
+        img_tmp = self.img[:,::-1]
         self.etiqueta.setPixmap(self.convert_cv_qt(img_tmp))
-        self.img = img_tmp 
+        self.img = img_tmp
         
-       
+    def desenfoque(self):
+        blur = np.array([[1,4,6,4,1],[4,16,24,16,4],[6,24,36,24,6],[4,16,24,16,4],[1,4,6,4,1]]) 
+        blur = (1/256)*blur
+        img_tmp = cv.filter2D(self.img, -1,blur)
+        self.etiqueta.setPixmap(self.convert_cv_qt(img_tmp))
+        self.img = img_tmp
+        
+        
     def convert_cv_qt(self, cv_img):
         """Convert from an opencv image to QPixmap"""
         rgb_image = cv.cvtColor(cv_img, cv.COLOR_BGR2RGB)
