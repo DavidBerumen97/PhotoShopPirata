@@ -74,6 +74,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.img = img_tmp
         
     def desenfoque(self):
+        """Realiza el desenfoque con la matriz blur Gaussiana"""
         blur = np.array([[1,4,6,4,1],[4,16,24,16,4],[6,24,36,24,6],[4,16,24,16,4],[1,4,6,4,1]]) 
         blur = (1/256)*blur
         img_tmp = cv.filter2D(self.img, -1,blur)
