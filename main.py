@@ -9,8 +9,8 @@ import sys
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         QMainWindow.__init__(self, *args, **kwargs)
-        self.img = None
         self.setupUi(self)
+        self.img = None
         self.img_original = None
         self.actionAbrir.triggered.connect(self.abrir)
         self.horizontalSlider.valueChanged.connect(self.cambia_brisho)
@@ -22,6 +22,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_6.clicked.connect(self.espejo_horizontal)
         self.pushButton_7.clicked.connect(self.espejo_vertical)
         self.pushButton_8.clicked.connect(self.desenfoque)
+        self.pushButton_9.clicked.connect(self.nitidez)
+        self.pushButton_10.clicked.connect(self.bordes)
+        self.pushButton_11.clicked.connect(self.cartoon)
     
     def original(self):
         if self.img_original is not None:
@@ -35,7 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.etiqueta.setPixmap(self.convert_cv_qt(img_tmp))
         self.img = img_tmp 
         
-               
+
     def escala_de_grises(self):
         """Aplica escala de grises a la imagen"""
         m = np.array([1/3,1/3,1/3])
@@ -81,6 +84,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.etiqueta.setPixmap(self.convert_cv_qt(img_tmp))
         self.img = img_tmp
         
+    def nitidez(self):
+        """Realiza el desenfoque con la matriz unsharp"""
+        unsharp = np.array([[1,4,6,4,1],[4,16,24,16,4],[6,24,-476,24,6],[4,16,24,16,4],[1,4,6,4,1]]) 
+        unsharp = (-1/256)*unsharp
+        img_tmp = cv.filter2D(self.img, -1,unsharp)
+        self.etiqueta.setPixmap(self.convert_cv_qt(img_tmp))
+        self.img = img_tmp
+    
+    def bordes(self):
+        """Se obtienen los bordes de la imagen"""
+        img_act = self.img
+        sobel_x = np.array([[-1,0,1],[-2,0,2],[-1,0,1]])
+        sobel_y = np.array([[-1,-2,-1],[0,0,0],[1,2,1]])
+        gx = cv.filter2D(img_act, -1, sobel_x)
+        gy = cv.filter2D(img_act, -1, sobel_y)
+        img_tmp = np.abs(gx) + np.abs(gy)
+        self.etiqueta.setPixmap(self.convert_cv_qt(img_tmp))
+        self.img = img_tmp
+        
+    def cartoon(self):
+        """Efecto que me dio claude"""
+        kernel = np.array([[-4, -2, 0],
+                    [-2,  1, 2],
+                    [ 0,  2, 4]], np.float32) 
+            
+        img_tmp = cv.filter2D(self.img, -1,kernel)
+        self.etiqueta.setPixmap(self.convert_cv_qt(img_tmp))
+        self.img = img_tmp
         
     def convert_cv_qt(self, cv_img):
         """Convert from an opencv image to QPixmap"""
