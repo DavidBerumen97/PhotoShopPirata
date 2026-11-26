@@ -13,6 +13,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.img = None
         self.img_original = None
         self.actionAbrir.triggered.connect(self.abrir)
+        self.actionGuardar.triggered.connect(self.guardar)
         self.horizontalSlider.valueChanged.connect(self.cambia_brisho)
         self.pushButton.clicked.connect(self.escala_de_grises)
         self.pushButton_2.clicked.connect(self.original)
@@ -131,6 +132,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.etiqueta.setPixmap(imagen)
             self.img = cv.imread(file)
             self.img_original = cv.imread(file)
+        
+    def guardar(self):
+        """Ya guarda la imagen editada"""
+        if self.img is not None:
+            archi = QFileDialog(self)
+            
+            ruta_archivo, _ = archi.getSaveFileName(
+                        self,
+                        "Guardar imagen",
+                        "imagen_guardada.png",
+                        "Imágenes PNG (*.png);;Imágenes JPEG (*.jpg *.jpeg);;Todos los archivos (*)"
+                        )
+
+            if ruta_archivo:
+                self.etiqueta.pixmap().save(ruta_archivo)
+
+        
         
         
 if __name__ == "__main__":

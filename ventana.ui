@@ -87,7 +87,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Brisho</string>
+     <string>Brillo</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -248,12 +248,19 @@
      <string>Archivo</string>
     </property>
     <addaction name="actionAbrir"/>
+    <addaction name="separator"/>
+    <addaction name="actionGuardar"/>
    </widget>
    <addaction name="menuArchivo"/>
   </widget>
   <action name="actionAbrir">
    <property name="text">
     <string>Abrir</string>
+   </property>
+  </action>
+  <action name="actionGuardar">
+   <property name="text">
+    <string>Guardar</string>
    </property>
   </action>
  </widget>

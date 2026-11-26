@@ -27,6 +27,8 @@ class Ui_MainWindow(object):
         MainWindow.resize(869, 630)
         self.actionAbrir = QAction(MainWindow)
         self.actionAbrir.setObjectName(u"actionAbrir")
+        self.actionGuardar = QAction(MainWindow)
+        self.actionGuardar.setObjectName(u"actionGuardar")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.label = QLabel(self.centralwidget)
@@ -95,6 +97,8 @@ class Ui_MainWindow(object):
 
         self.menubar.addAction(self.menuArchivo.menuAction())
         self.menuArchivo.addAction(self.actionAbrir)
+        self.menuArchivo.addSeparator()
+        self.menuArchivo.addAction(self.actionGuardar)
 
         self.retranslateUi(MainWindow)
 
@@ -104,9 +108,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Ventana", None))
         self.actionAbrir.setText(QCoreApplication.translate("MainWindow", u"Abrir", None))
+        self.actionGuardar.setText(QCoreApplication.translate("MainWindow", u"Guardar", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"PhotoPirata", None))
         self.etiqueta.setText("")
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Brisho", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Brillo", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Escala de Grises", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Volver a Original", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Negativo", None))
